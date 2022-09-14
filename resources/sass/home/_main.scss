@@ -1,0 +1,160 @@
+* {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+body {
+    height: 100vh;
+    background-color: $bgc;
+}
+
+// table th, table td{
+//     border: 1px solid #444444;
+// }
+
+.main-wrapper {
+    height: calc(100vh - #{$header-height});
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    padding: 7px;
+    box-sizing: border-box;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    margin-right: 5px;
+    // padding: 5px;
+    // border-radius: 10px;
+    // background-color: #a0d7d9;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+
+    > .add {
+    
+        > .add-btn {
+            z-index: 997;
+            position: absolute;
+            width: 50px;
+            height: $add-item-height;
+            line-height: $add-item-height;
+            text-align: center;
+            bottom: 10px;
+            right: 15px;
+            border-radius: 50%;
+            color: #ffffff;
+            background-color: gray;
+        }
+    }
+}
+    
+.group {
+    width: 100%;
+    height: 15%;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+.detail {
+    width: 100%;
+    height: 85%;
+    border-radius: 10px;
+    // background-color: #ffffff;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    
+    > div {
+        position: relative;
+        width: 33%;
+        height: 100%;
+        border-radius: 10px;
+        box-sizing: border-box;
+        
+        > div:first-of-type {
+            width: 98%;
+            height: 25px; //この値からずらせない
+            margin: 10px auto;
+            text-align: center;
+            background-color: #999999;
+            border-radius: 10px;
+            box-sizing: border-box;
+            
+            > p {
+                color: #ffffff;
+                font-weight:bold;
+            }
+        }
+        
+        > div:not(:first-of-type) {
+            
+            padding: 5px;
+            height: calc(100% - calc(25px * 2)); //この値からずらせない
+            box-sizing: border-box;
+            overflow-y: scroll;
+            
+            > .item-wrapper {
+                float: left;
+                width: 50%;
+                height: 130px;
+                margin-bottom: 10px;
+                
+                > .item {
+                    position: relative;
+                    height: 100%;
+                    margin: 5px; 
+                    border-radius: 10px;
+                    background-color: #a0d7d9;
+                    box-sizing: border-box;
+
+                    * {
+                        pointer-events: none; //.item以下の要素にクリックイベントが反応するのを防ぐ
+                    }
+
+                    > p {
+                        text-align: center;
+                        color: #808080;
+                    }
+                    > .item-title {
+                        height: 15%;
+                        color: #ffffff;
+                        font-size: 15px;
+                    }
+                    > .item-message {
+                        height: 68%;
+                        overflow-y: hidden;
+                    }                
+                    > .item-name {
+                        position: absolute;
+                        bottom: 5px;
+                        right: 5px;
+                        width: 45%;
+                        // height: 15%;
+                        border-radius: 10px;
+                        font-size: 9px;
+                        background-color: #ffffff;
+                    }
+                }
+            }
+        }
+    }
+
+    .status-yet {
+        background-color: $status-color;
+    }
+    
+    .status-current {
+        margin: 0 5px 0;
+        background-color: $status-color;
+    }
+    
+    .status-finish {
+        background-color: $status-color;
+    }
+
+}

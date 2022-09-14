@@ -1,0 +1,50 @@
+.header {
+    $parent: &;
+    width: 100%;
+    height: $header-height;
+    background-color: #ffffff;
+
+    > #{$parent}-contents-wrapper {
+        z-index: 99; //子要素も全面に来るのでここで対応しておく
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        > #{$parent}-contents {
+            $margin: 10px;
+            margin: #{$margin};
+            padding: 0 10px 0;
+            line-height: calc(#{$header-height} - calc(#{$margin} * 2));
+            display: flex;
+            background-color: $bgc;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #666666;
+
+            .register, .login {
+                padding: 0 10px 0;
+            }
+            .register:hover, .login:hover {
+                cursor: pointer;
+            }
+
+            > #{$parent}-loginUser {
+                height: auto;
+                
+                & > #{$parent}-loginUser-Menu {
+                    display: none;
+                    margin-top: -15px;
+                    padding: 10px;
+                    text-align: right;
+
+                    .header-Logout-botton, .header-Mypage-botton, .header-Home-botton {
+                        padding-top: 10px;
+                        border: none;
+                        background-color: $bgc;
+                        color: #666666;
+                    }
+                }
+            }
+        }
+    }
+}

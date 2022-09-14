@@ -1,0 +1,44 @@
+$header-height: 60px;
+$bgc: #e0e0e0;
+$status-color: #ffffff;
+$add-item-height: 50px;
+
+* {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+body {
+    height: 100vh;
+    background-color: $bgc;
+}
+
+.display-block {
+    display: block !important;
+}
+
+.error-message-type {
+    color: red;
+    font-style: italic;
+    font-size: 14px;
+}
+.error-message-type1 {
+    @extend .error-message-type;
+    margin-top: -10px;
+    margin-bottom: -15px;
+}
+.error-message-type2 {
+    @extend .error-message-type;
+    margin-left: 1.5em;
+}
+
+.success-message-type {
+    color: blue;
+    font-style: italic;
+    font-size: 15px;
+}
+
+.success-message-type1 {
+    @extend .success-message-type;
+    margin-top: 1em;
+}

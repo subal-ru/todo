@@ -1,0 +1,185 @@
+* {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+
+body {
+  height: 100vh;
+  background-color: #e0e0e0;
+}
+
+.display-block {
+  display: block !important;
+}
+
+.error-message-type, .error-message-type2, .error-message-type1 {
+  color: red;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.error-message-type1 {
+  margin-top: -10px;
+  margin-bottom: -15px;
+}
+
+.error-message-type2 {
+  margin-left: 1.5em;
+}
+
+.success-message-type, .success-message-type1 {
+  color: blue;
+  font-style: italic;
+  font-size: 15px;
+}
+
+.success-message-type1 {
+  margin-top: 1em;
+}
+
+.header {
+  width: 100%;
+  height: 60px;
+  background-color: #ffffff;
+}
+.header > .header-contents-wrapper {
+  z-index: 99;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.header > .header-contents-wrapper > .header-contents {
+  margin: 10px;
+  padding: 0 10px 0;
+  line-height: calc(60px - calc(10px * 2));
+  display: flex;
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #666666;
+}
+.header > .header-contents-wrapper > .header-contents .register, .header > .header-contents-wrapper > .header-contents .login {
+  padding: 0 10px 0;
+}
+.header > .header-contents-wrapper > .header-contents .register:hover, .header > .header-contents-wrapper > .header-contents .login:hover {
+  cursor: pointer;
+}
+.header > .header-contents-wrapper > .header-contents > .header-loginUser {
+  height: auto;
+}
+.header > .header-contents-wrapper > .header-contents > .header-loginUser > .header-loginUser-Menu {
+  display: none;
+  margin-top: -15px;
+  padding: 10px;
+  text-align: right;
+}
+.header > .header-contents-wrapper > .header-contents > .header-loginUser > .header-loginUser-Menu .header-Logout-botton, .header > .header-contents-wrapper > .header-contents > .header-loginUser > .header-loginUser-Menu .header-Mypage-botton, .header > .header-contents-wrapper > .header-contents > .header-loginUser > .header-loginUser-Menu .header-Home-botton {
+  padding-top: 10px;
+  border: none;
+  background-color: #e0e0e0;
+  color: #666666;
+}
+
+.modal {
+  z-index: 998;
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal > .add-modal-card {
+  z-index: 999;
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  padding: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.modal > .add-modal-card .modal-contents > p:first-of-type {
+  text-align: center;
+  color: red;
+}
+.modal > .add-modal-card .modal-contents textarea {
+  resize: none;
+}
+.modal > .add-modal-card .add-send-btn {
+  width: 100%;
+  height: 30px;
+  margin-top: 10px;
+}
+.modal > .item-modal-card {
+  z-index: 999;
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  padding: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.modal > .item-modal-card .contents > p:first-of-type {
+  text-align: center;
+  color: red;
+}
+.modal > .item-modal-card .contents textarea {
+  resize: none;
+}
+.modal > .item-modal-card .add-send-btn {
+  width: 100%;
+  height: 30px;
+  margin-top: 10px;
+}
+.modal > .modal-login-card, .modal > .modal-register-card {
+  z-index: 999;
+  position: fixed;
+  width: 450px;
+  height: auto;
+  padding: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.modal > .modal-login-card .contents > p:first-of-type, .modal > .modal-register-card .contents > p:first-of-type {
+  text-align: center;
+  color: black;
+  font-size: 20px;
+}
+.modal > .modal-login-card .contents input, .modal > .modal-register-card .contents input {
+  width: 100%;
+}
+.modal > .modal-login-card .contents > div input, .modal > .modal-register-card .contents > div input {
+  margin-top: -10px;
+}
+.modal > .modal-login-card .send-btn, .modal > .modal-register-card .send-btn {
+  width: 100%;
+  height: 30px;
+  margin-top: 25px;
+}
+.modal > .modal-register-card .contents > div:nth-of-type(1) > input {
+  width: 35%;
+}
+
+.root-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.session-loginMessage {
+  background-color: #e0e0e0;
+}
