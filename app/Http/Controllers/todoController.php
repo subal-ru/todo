@@ -67,7 +67,7 @@ class todoController extends Controller
         return $validate->messages();
         // }
 
-        User::setUsersData($request);
+        // User::setUsersData($request);
         // return redirect('/home');
     }
 
@@ -98,10 +98,14 @@ class todoController extends Controller
         // ログイン可能かCHECK
         $isLogin = User::loginUser($request);
 
-        if ($isLogin == true) {
+        if ($isLogin === true) {
             return []; //空のデータを送信
-        } else {
+        } else if ($isLogin === 'error2') {
             return ['loginError' => "ログインできませんでした"];
+        } else if ($isLogin === 'error1') {
+            return ['email' => "メールアドレスが登録されていません"];
+        } else {
+            return ['loginError' => '予期しないエラー'];
         }
     }
 

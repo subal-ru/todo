@@ -57,6 +57,14 @@ class User extends Authenticatable
 
         // DB::insert('insert into users (name, email, password) values (:name, :email, :password)', $param);
         User::insert($param);
+        $user = DB::table('users')->where('email', $param['email'])->first();
+
+        // セッション
+        session([
+            'name' => $user->name,
+            'email' => $user->email,
+            'userid' => $user->id
+        ]);
     }
 
     // ログインチェックとログインまで
@@ -68,6 +76,11 @@ class User extends Authenticatable
         ];
 
         $user = DB::table('users')->where('email', $param['email'])->first();
+
+        // メールアドレスが存在しない
+        if (empty($user)) {
+            return 'error1';
+        }
 
         // passwordのチェック
         if (Hash::check($param['password'], $user->password)) {
@@ -82,7 +95,7 @@ class User extends Authenticatable
             return true;
         } else {
 
-            return false;
+            return 'error2';
         }
     }
 
