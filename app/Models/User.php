@@ -115,8 +115,8 @@ class User extends Authenticatable
         }
 
         // パスワードのhash化とDB更新
-        // $hashPass = Hash::make($param['newpassword']);
-        // User::where('users.id', $param['userid'])->update(['password' => $hashPass]);
+        $hashPass = Hash::make($param['newpassword']);
+        User::where('users.id', $param['userid'])->update(['password' => $hashPass]);
 
         return true;
     }

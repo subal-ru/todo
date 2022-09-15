@@ -67,7 +67,7 @@ class todoController extends Controller
         return $validate->messages();
         // }
 
-        // User::setUsersData($request);
+        User::setUsersData($request);
         // return redirect('/home');
     }
 
