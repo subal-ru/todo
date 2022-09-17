@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('userid');
             $table->string('title');
             $table->string('message');
+            $table->string('status');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
