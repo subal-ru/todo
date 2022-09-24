@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name');  //グループ名
             $table->integer('administrator_userid'); //管理者（最上位（作成者））
             $table->integer('status')->default(0); //ステータス 0:データあり 9:論理削除
-            $table->timestamp('create_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('update_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
 

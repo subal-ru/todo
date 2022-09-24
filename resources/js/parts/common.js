@@ -36,6 +36,20 @@ export function setStatusData($ele, $classNames) {
     $modal.getElementsByTagName('input')['id'].value = $itemElement.dataset.id;
 }
 
+
+// エラーメッセージの表示
+export function showError(error, $Mainpro, $name, $showType) {
+
+    if (error[$name]) {
+        $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML     = error[$name];
+        $("." + $Mainpro + " .error-message-" + $name)[0].classList.add('error-message-type' + $showType);
+    }
+    else {
+        $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = '';
+        $("." + $Mainpro + " .error-message-" + $name)[0].classList.remove('error-message-type' + $showType);
+    }
+}
+
 // モーダルに自信を閉じるクリックイベントを追加
 function closeModal($ele) {
     // 念の為モーダルクラスを調べる

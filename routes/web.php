@@ -27,8 +27,12 @@ route::controller(todoController::class)->group(
 route::controller(todoController::class)->middleware('login')->group(
     function () {
         route::get('home', 'home')->name('home');
+        route::get('home/groupToggle', 'groupToggle');
         route::post('home/addItem', 'addItem');
         route::post('home/changeItem', 'changeItem');
+
+        route::post('home/addGroup', 'addGroup');
+        route::post('home/addGroupSuccess', 'addGroupSuccess');
 
         route::get('/mypage', 'mypage')->name('mypage');
         route::post('/changePass', 'changePass');

@@ -12,14 +12,107 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _parts_common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parts/common.js */ "./resources/js/parts/common.js");
 /* harmony import */ var _parts_header_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parts/header.js */ "./resources/js/parts/header.js");
 /* harmony import */ var _home_main_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./home/main.js */ "./resources/js/home/main.js");
+/* harmony import */ var _home_group_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./home/group.js */ "./resources/js/home/group.js");
 
-(0,_parts_common_js__WEBPACK_IMPORTED_MODULE_0__.setModalCloseEvent)();
-
-(0,_parts_header_js__WEBPACK_IMPORTED_MODULE_1__.headerSettingFunc)();
+(0,_parts_common_js__WEBPACK_IMPORTED_MODULE_0__.setModalCloseEvent)(); // header関連js読み込み
 
 
-(0,_home_main_js__WEBPACK_IMPORTED_MODULE_2__.setAddBottonEvent)();
-(0,_home_main_js__WEBPACK_IMPORTED_MODULE_2__.setItemBottonEvent)();
+(0,_parts_header_js__WEBPACK_IMPORTED_MODULE_1__.headerSettingFunc)(); // main部js読み込み
+
+
+(0,_home_main_js__WEBPACK_IMPORTED_MODULE_2__.mainSettingFunc)(); // group関連js読み込み
+
+
+(0,_home_group_js__WEBPACK_IMPORTED_MODULE_3__.groupSettingFunc)();
+
+/***/ }),
+
+/***/ "./resources/js/home/group.js":
+/*!************************************!*\
+  !*** ./resources/js/home/group.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "groupSettingFunc": () => (/* binding */ groupSettingFunc)
+/* harmony export */ });
+/* harmony import */ var _parts_common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../parts/common.js */ "./resources/js/parts/common.js");
+
+function groupSettingFunc() {
+  setAddGroupEvent();
+  setGroupSwitch();
+} // グループ作成ボタンのクリック
+
+function setAddGroupEvent() {
+  $('.group-add .group-add-send').click(function () {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      url: 'home/addGroup',
+      type: 'post',
+      dataType: 'json',
+      data: {
+        userid: $('.group-add  .modal-contents .userid')[0].value,
+        name: $('.group-add .modal-contents .name')[0].value,
+        color: $('.group-add .modal-contents .color')[0].value
+      }
+    }).done(function (res) {
+      var error = {
+        userid: res['userid'],
+        name: res['name'],
+        color: res['color']
+      }; // エラーなし
+
+      if (!error['userid'] && !error['name'] && !error['color']) {
+        $('.group .successForm .userid')[0].value = $('.group-add .modal-contents .userid')[0].value;
+        $('.group .successForm .name')[0].value = $('.group-add .modal-contents .name')[0].value;
+        $('.group .successForm .color')[0].value = $('.group-add .modal-contents .color')[0].value;
+        $('.group .successForm')[0].submit();
+      } // エラ〜表示
+
+
+      (0,_parts_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'group', 'name', '');
+      return true;
+    }).fail(function (err) {
+      console.log(err);
+    });
+  });
+} // グループの表示切り替え　//ajax実装をやめる
+// function setGroupSwitch() {
+//     $('.group-item').click((ele) => {
+//         $.ajaxSetup({
+//             headers: { 'X-CSRF-TOLEN' :  $('meta[name="csrf-token"]').attr('content') }
+//         })
+//         $.ajax({
+//             url: 'home/groupToggle',
+//             type: 'get',
+//             dataType: 'json',
+//             data : {
+//                 groupid: ele.target.dataset.groupid,
+//                 isVisible: ele.target.classList.contains('toggle-off'),
+//             }
+//         })
+//         .done((res) => {
+//         })
+//         .fail((err) => {
+//             console.log(err);
+//         })
+//     })
+// }
+
+
+function setGroupSwitch() {
+  $(".group-item").click(function (ele) {
+    $(".group-List .groupid")[0].value = ele.target.dataset.groupid;
+    $(".group-List .isVisible")[0].value = ele.target.classList.contains('toggle-off');
+    $(".group-list form")[0].submit();
+  });
+}
 
 /***/ }),
 
@@ -32,13 +125,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "setAddBottonEvent": () => (/* binding */ setAddBottonEvent),
-/* harmony export */   "setItemBottonEvent": () => (/* binding */ setItemBottonEvent)
+/* harmony export */   "mainSettingFunc": () => (/* binding */ mainSettingFunc)
 /* harmony export */ });
 /* harmony import */ var _parts_common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../parts/common.js */ "./resources/js/parts/common.js");
 // (()=>{
 
- // グローバル定数...?（あまり良くはないけど見た目をスッキリさせる為）
+
+function mainSettingFunc() {
+  setAddBottonEvent();
+  setItemBottonEvent();
+  setAddGroupBottonEvent();
+} // グローバル定数...?（あまり良くはないけど見た目をスッキリさせる為）
 
 var $doc = document; // addボタンにイベントを追加
 
@@ -49,6 +146,7 @@ function setAddBottonEvent() {
   });
 } // todoリストのアイテムへクリックイベントを追加
 
+
 function setItemBottonEvent() {
   var $items = $doc.getElementsByClassName('item');
 
@@ -58,6 +156,13 @@ function setItemBottonEvent() {
       (0,_parts_common_js__WEBPACK_IMPORTED_MODULE_0__.setStatusData)($clickElement, 'item-detail modal');
     });
   }
+} // group追加ボタン
+
+
+function setAddGroupBottonEvent() {
+  $('.add-group-btn').click(function () {
+    (0,_parts_common_js__WEBPACK_IMPORTED_MODULE_0__.showModal)('modal group-add');
+  });
 } // })();
 
 /***/ }),
@@ -73,6 +178,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "setModalCloseEvent": () => (/* binding */ setModalCloseEvent),
 /* harmony export */   "setStatusData": () => (/* binding */ setStatusData),
+/* harmony export */   "showError": () => (/* binding */ showError),
 /* harmony export */   "showModal": () => (/* binding */ showModal)
 /* harmony export */ });
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
@@ -113,6 +219,16 @@ function setStatusData($ele, $classNames) {
   $modal.getElementsByClassName('modal-message')[0].value = $message.innerHTML;
   $modal.getElementsByClassName('modal-status')[0].value = $itemElement.dataset.status;
   $modal.getElementsByTagName('input')['id'].value = $itemElement.dataset.id;
+} // エラーメッセージの表示
+
+function showError(error, $Mainpro, $name, $showType) {
+  if (error[$name]) {
+    $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = error[$name];
+    $("." + $Mainpro + " .error-message-" + $name)[0].classList.add('error-message-type' + $showType);
+  } else {
+    $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = '';
+    $("." + $Mainpro + " .error-message-" + $name)[0].classList.remove('error-message-type' + $showType);
+  }
 } // モーダルに自信を閉じるクリックイベントを追加
 
 function closeModal($ele) {
@@ -136,6 +252,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "headerSettingFunc": () => (/* binding */ headerSettingFunc)
 /* harmony export */ });
 /* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./resources/js/parts/common.js");
+
  // 定数
 
 var $doc = document;
@@ -146,7 +263,6 @@ function headerSettingFunc() {
 
   setLoginSendBottonEvent();
   setRegisterSendBottonEvent();
-  setChangePassSendBottonEvent();
 } // loginボタンのクリックイベントを追加
 
 function setLoginBottonEvent() {
@@ -198,17 +314,6 @@ function showLoginUserMenu(ele) {
   } else {
     $menu.style.display = 'none';
   }
-} // エラーメッセージの表示
-
-
-function showError(error, $Mainpro, $name, $showType) {
-  if (error[$name]) {
-    $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = error[$name];
-    $("." + $Mainpro + " .error-message-" + $name)[0].classList.add('error-message-type' + $showType);
-  } else {
-    $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = '';
-    $("." + $Mainpro + " .error-message-" + $name)[0].classList.remove('error-message-type' + $showType);
-  }
 } // ログインボタン押下後の処理
 
 
@@ -243,9 +348,9 @@ function setLoginSendBottonEvent() {
       } // email,passwordのエラーメッセージの表示
 
 
-      showError(error, 'login', 'email', '1');
-      showError(error, "login", "password", '1');
-      showError(error, 'login', 'loginError', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'login', 'email', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, "login", "password", '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'login', 'loginError', '1');
       return true;
     }).fail(function (error) {
       console.log(error);
@@ -294,9 +399,9 @@ function setRegisterSendBottonEvent() {
       } // name,email,passwordのエラーメッセージの表示
 
 
-      showError(error, 'register', 'name', '1');
-      showError(error, 'register', 'email', '1');
-      showError(error, 'register', 'password', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'register', 'name', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'register', 'email', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'register', 'password', '1');
       return true;
     }).fail(function (error) {
       console.log(error);
@@ -313,64 +418,6 @@ function registerSuccess() {
   $("#form-registerSuccess .password").val($('.modal.register .password')[0].value);
   $("#form-registerSuccess").submit();
   return true;
-} // パスワード変更ボタン押下
-
-
-function setChangePassSendBottonEvent() {
-  $('.changePass .submit').click(function () {
-    $.ajaxSetup({
-      headers: {
-        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content") //csrfを入れないと419エラーになる
-
-      }
-    });
-    $.ajax({
-      type: 'post',
-      url: 'changePass',
-      dataType: 'json',
-      data: {
-        userid: $('.changePass .userid')[0].value,
-        password: $('.changePass .password')[0].value,
-        newpassword: $('.changePass .newpassword')[0].value,
-        newpassword_confirmation: $('.changePass .newpassword_confirmation')[0].value
-      }
-    }).done(function (res) {
-      var error = {
-        password: res['password'],
-        newpassword: res['newpassword'],
-        newpassword_confirmation: res['newpassword_confirmation']
-      };
-      var message = {
-        success: res['success']
-      }; // エラーなし
-
-      if (!error['password'] && !error['newpassword'] && !error['newpassword_confirmation']) {
-        // 成功メッセージの表示
-        $('.success-message-submit')[0].innerHTML = message['success'];
-        $('.success-message-submit')[0].classList.add('success-message-type1'); // エラーメッセージを空白でリセットする
-
-        showError(error, 'changePass', 'password');
-        showError(error, 'changePass', 'newpassword');
-        showError(error, 'changePass', 'newpassword_confirmation'); // 入力パラメーターの削除
-
-        $('.changePass .password')[0].value = "";
-        $('.changePass .newpassword')[0].value = "";
-        $('.changePass .newpassword_confirmation')[0].value = "";
-        return true;
-      } // 空白で成功メッセージを削除する
-
-
-      $('.success-message-submit')[0].innerHTML = "";
-      $('.success-message-submit')[0].classList.add('success-message-type1'); // エラー表示
-
-      showError(error, 'changePass', 'password', '2');
-      showError(error, 'changePass', 'newpassword', '2');
-      showError(error, 'changePass', 'newpassword_confirmation', '2');
-      return true;
-    }).fail(function (error) {
-      console.log(error);
-    });
-  });
 }
 
 /***/ }),

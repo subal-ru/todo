@@ -12,6 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "setModalCloseEvent": () => (/* binding */ setModalCloseEvent),
 /* harmony export */   "setStatusData": () => (/* binding */ setStatusData),
+/* harmony export */   "showError": () => (/* binding */ showError),
 /* harmony export */   "showModal": () => (/* binding */ showModal)
 /* harmony export */ });
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
@@ -52,6 +53,16 @@ function setStatusData($ele, $classNames) {
   $modal.getElementsByClassName('modal-message')[0].value = $message.innerHTML;
   $modal.getElementsByClassName('modal-status')[0].value = $itemElement.dataset.status;
   $modal.getElementsByTagName('input')['id'].value = $itemElement.dataset.id;
+} // エラーメッセージの表示
+
+function showError(error, $Mainpro, $name, $showType) {
+  if (error[$name]) {
+    $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = error[$name];
+    $("." + $Mainpro + " .error-message-" + $name)[0].classList.add('error-message-type' + $showType);
+  } else {
+    $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = '';
+    $("." + $Mainpro + " .error-message-" + $name)[0].classList.remove('error-message-type' + $showType);
+  }
 } // モーダルに自信を閉じるクリックイベントを追加
 
 function closeModal($ele) {
@@ -75,6 +86,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "headerSettingFunc": () => (/* binding */ headerSettingFunc)
 /* harmony export */ });
 /* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./resources/js/parts/common.js");
+
  // 定数
 
 var $doc = document;
@@ -85,7 +97,6 @@ function headerSettingFunc() {
 
   setLoginSendBottonEvent();
   setRegisterSendBottonEvent();
-  setChangePassSendBottonEvent();
 } // loginボタンのクリックイベントを追加
 
 function setLoginBottonEvent() {
@@ -137,17 +148,6 @@ function showLoginUserMenu(ele) {
   } else {
     $menu.style.display = 'none';
   }
-} // エラーメッセージの表示
-
-
-function showError(error, $Mainpro, $name, $showType) {
-  if (error[$name]) {
-    $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = error[$name];
-    $("." + $Mainpro + " .error-message-" + $name)[0].classList.add('error-message-type' + $showType);
-  } else {
-    $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = '';
-    $("." + $Mainpro + " .error-message-" + $name)[0].classList.remove('error-message-type' + $showType);
-  }
 } // ログインボタン押下後の処理
 
 
@@ -182,9 +182,9 @@ function setLoginSendBottonEvent() {
       } // email,passwordのエラーメッセージの表示
 
 
-      showError(error, 'login', 'email', '1');
-      showError(error, "login", "password", '1');
-      showError(error, 'login', 'loginError', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'login', 'email', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, "login", "password", '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'login', 'loginError', '1');
       return true;
     }).fail(function (error) {
       console.log(error);
@@ -233,9 +233,9 @@ function setRegisterSendBottonEvent() {
       } // name,email,passwordのエラーメッセージの表示
 
 
-      showError(error, 'register', 'name', '1');
-      showError(error, 'register', 'email', '1');
-      showError(error, 'register', 'password', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'register', 'name', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'register', 'email', '1');
+      (0,_common_js__WEBPACK_IMPORTED_MODULE_0__.showError)(error, 'register', 'password', '1');
       return true;
     }).fail(function (error) {
       console.log(error);
@@ -252,64 +252,6 @@ function registerSuccess() {
   $("#form-registerSuccess .password").val($('.modal.register .password')[0].value);
   $("#form-registerSuccess").submit();
   return true;
-} // パスワード変更ボタン押下
-
-
-function setChangePassSendBottonEvent() {
-  $('.changePass .submit').click(function () {
-    $.ajaxSetup({
-      headers: {
-        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content") //csrfを入れないと419エラーになる
-
-      }
-    });
-    $.ajax({
-      type: 'post',
-      url: 'changePass',
-      dataType: 'json',
-      data: {
-        userid: $('.changePass .userid')[0].value,
-        password: $('.changePass .password')[0].value,
-        newpassword: $('.changePass .newpassword')[0].value,
-        newpassword_confirmation: $('.changePass .newpassword_confirmation')[0].value
-      }
-    }).done(function (res) {
-      var error = {
-        password: res['password'],
-        newpassword: res['newpassword'],
-        newpassword_confirmation: res['newpassword_confirmation']
-      };
-      var message = {
-        success: res['success']
-      }; // エラーなし
-
-      if (!error['password'] && !error['newpassword'] && !error['newpassword_confirmation']) {
-        // 成功メッセージの表示
-        $('.success-message-submit')[0].innerHTML = message['success'];
-        $('.success-message-submit')[0].classList.add('success-message-type1'); // エラーメッセージを空白でリセットする
-
-        showError(error, 'changePass', 'password');
-        showError(error, 'changePass', 'newpassword');
-        showError(error, 'changePass', 'newpassword_confirmation'); // 入力パラメーターの削除
-
-        $('.changePass .password')[0].value = "";
-        $('.changePass .newpassword')[0].value = "";
-        $('.changePass .newpassword_confirmation')[0].value = "";
-        return true;
-      } // 空白で成功メッセージを削除する
-
-
-      $('.success-message-submit')[0].innerHTML = "";
-      $('.success-message-submit')[0].classList.add('success-message-type1'); // エラー表示
-
-      showError(error, 'changePass', 'password', '2');
-      showError(error, 'changePass', 'newpassword', '2');
-      showError(error, 'changePass', 'newpassword_confirmation', '2');
-      return true;
-    }).fail(function (error) {
-      console.log(error);
-    });
-  });
 }
 
 /***/ }),

@@ -27,13 +27,22 @@
                                 </div>
                             </div>
                             <div><p>タイトル</p><div><input type="text" name="title"></div></div>
+                            <div><p>グループ設定</p><div>
+                                <select name="groupid">
+                                    <option value="0">グループなし</option>
+                                    @foreach($groupList as $group)
+                                        <option value="{{$group['id']}}">{{$group['name']}}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                            </div>
                             <div><p>内容</p><div><textarea rows="4" cols="35" name="message"></textarea></div></div>
                             <input class="add-send-btn" type="submit" value="決定">
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="group"></div>
+            <x-home.group class="group" :groupList="$groupList"></x-home.group>
             <div class="detail">
                 {{-- 7.0以前の記載では変数をコンポーネントに渡すのに、工夫が必要？ --}}
                 {{-- @component('components.statusList')

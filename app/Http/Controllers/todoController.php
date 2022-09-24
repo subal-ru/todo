@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Group;
+use App\Models\UsersInGroup;
+use App\Models\ItemsInGroup;
 use Validator;
 
 class todoController extends Controller
@@ -25,22 +28,39 @@ class todoController extends Controller
     // ホーム画面
     public function home()
     {
+        // ステータス0:未着手 1:作業中 2:完了
         $yetItems = Item::getItems(0);
         $currentItems = Item::getItems(1);
         $finishItems = Item::getItems(2);
 
-        return view('selection.home', compact(['yetItems', 'currentItems', 'finishItems']));
+        $groupList = [];
+        $groups = Group::getMyGroups();
+        foreach ($groups as $group) {
+            $data = UsersInGroup::getGroup(session('userid'), $group->id);
+            $groupList[] = [
+                'id'   => $group->id,
+                'name' => $group->name,
+                'color' => $data->color,
+                'visible' => $data->visible,
+            ];
+        }
+
+        return view('selection.home', compact(['yetItems', 'currentItems', 'finishItems', 'groupList']));
     }
 
+    // アイテム追加
     public function addItem(Request $request)
     {
-        $param = $request->only(['userid', 'status', 'title', 'message']);
+        $param = $request->only(['userid', 'status', 'title', 'message']); //重複チェック考える
+        $item = Item::addItem($param);
 
-        Item::addItem($param);
+        // itemとgroup紐付ける
+        ItemsInGroup::setData($request->groupid, $item->id);
 
         return redirect('/home');
     }
 
+    // アイテムの内容変更
     public function changeItem(Request $request)
     {
         $param = $request->only(['status', 'title', 'message', 'id']);
@@ -157,5 +177,42 @@ class todoController extends Controller
         } else {
             return ['success' => 'パスワードを変更しました'];
         }
+    }
+
+    // グループ追加ボタンのリクエスト送信時
+    public function addGroup(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'userid' => 'required', //これがないということはsessionが切れている
+                'name' => 'required',
+                'color' => 'required', //value指定あるので未設定になることはない
+            ]
+        );
+
+        if ($validate->fails()) {
+            return $validate->messages();
+        }
+
+        //エラーなし時空データ送信
+        return [];
+    }
+
+    // グループ追加入力データチェックOK
+    public function addGroupSuccess(Request $request)
+    {
+        Group::makeGroup($request); //グループの新規作成
+        UsersInGroup::setUser($request); //グループユーザーを紐付けるため専用のDBへ登録
+
+        return redirect('/home');
+    }
+
+    // グループon,off切り替え時にリダイレクトし表示アイテムを更新する
+    public function groupToggle(Request $request)
+    {
+        UsersInGroup::setVisibleData(session('userid'), $request->groupid, $request->isVisible);
+
+        return redirect('/home');
     }
 }

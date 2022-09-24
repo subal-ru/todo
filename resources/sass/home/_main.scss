@@ -50,15 +50,6 @@ body {
         }
     }
 }
-    
-.group {
-    width: 100%;
-    height: 15%;
-    margin-bottom: 5px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    box-sizing: border-box;
-}
 
 .detail {
     width: 100%;
@@ -109,27 +100,27 @@ body {
                     height: 100%;
                     margin: 5px; 
                     border-radius: 10px;
-                    background-color: #a0d7d9;
+                    border: solid #bcbcbc 1px;
+                    box-shadow: 2px 2px 1px 1px #bcbcbc;
                     box-sizing: border-box;
 
                     * {
                         pointer-events: none; //.item以下の要素にクリックイベントが反応するのを防ぐ
                     }
 
-                    > p {
+                    p {
                         text-align: center;
-                        color: #808080;
+                        filter: invert(100%) grayscale(100%) contrast(100);
                     }
                     > .item-title {
                         height: 15%;
-                        color: #ffffff;
                         font-size: 15px;
                     }
                     > .item-message {
                         height: 68%;
                         overflow-y: hidden;
                     }                
-                    > .item-name {
+                    .item-name {
                         position: absolute;
                         bottom: 5px;
                         right: 5px;
@@ -137,7 +128,7 @@ body {
                         // height: 15%;
                         border-radius: 10px;
                         font-size: 9px;
-                        background-color: #ffffff;
+                        filter: invert(100%) grayscale(100%) contrast(100);
                     }
                 }
             }

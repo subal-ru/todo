@@ -42,3 +42,7 @@ body {
     @extend .success-message-type;
     margin-top: 1em;
 }
+
+.toggle-off {
+    text-decoration: line-through;
+}

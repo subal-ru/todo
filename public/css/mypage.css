@@ -37,6 +37,10 @@ body {
   margin-top: 1em;
 }
 
+.toggle-off {
+  text-decoration: line-through;
+}
+
 .header {
   width: 100%;
   height: 60px;
@@ -80,6 +84,18 @@ body {
   color: #666666;
 }
 
+.modal-card, .modal > .group-modal-card, .modal > .add-modal-card {
+  z-index: 999;
+  position: fixed;
+  padding: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
 .modal {
   z-index: 998;
   display: none;
@@ -91,21 +107,11 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 .modal > .add-modal-card {
-  z-index: 999;
-  position: fixed;
   width: 300px;
-  height: 300px;
-  padding: 15px;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-sizing: border-box;
 }
 .modal > .add-modal-card .modal-contents > p:first-of-type {
   text-align: center;
-  color: red;
+  color: rgba(88, 120, 203, 0.862745098);
 }
 .modal > .add-modal-card .modal-contents textarea {
   resize: none;
@@ -114,6 +120,35 @@ body {
   width: 100%;
   height: 30px;
   margin-top: 10px;
+}
+.modal > .group-modal-card {
+  width: 400px;
+}
+.modal > .group-modal-card .modal-title {
+  text-align: center;
+  color: rgba(88, 120, 203, 0.862745098);
+  margin-bottom: 10px;
+}
+.modal > .group-modal-card .modal-item {
+  display: flex;
+}
+.modal > .group-modal-card .modal-item > p {
+  font-size: 14px;
+  width: 30%;
+}
+.modal > .group-modal-card .modal-item > input {
+  width: 70%;
+}
+.modal > .group-modal-card .modal-item .color {
+  width: 15%;
+}
+.modal > .group-modal-card .modal-item:not(:first-of-type) {
+  margin-top: 10px;
+}
+.modal > .group-modal-card .group-add-send {
+  display: block;
+  padding: 0 10px 0 10px;
+  margin: 20px auto 0px;
 }
 .modal > .item-modal-card {
   z-index: 999;
@@ -130,7 +165,7 @@ body {
 }
 .modal > .item-modal-card .contents > p:first-of-type {
   text-align: center;
-  color: red;
+  color: rgba(88, 120, 203, 0.862745098);
 }
 .modal > .item-modal-card .contents textarea {
   resize: none;

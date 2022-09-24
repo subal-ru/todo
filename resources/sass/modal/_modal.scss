@@ -1,3 +1,15 @@
+.modal-card { //extend用
+    z-index: 999;
+    position: fixed;
+    padding: 15px;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
 .modal {
     z-index: 998;
     display: none;
@@ -10,24 +22,15 @@
     // opacity: 0.3;
 
     > .add-modal-card {
-        z-index: 999;
-        position: fixed;
+        @extend .modal-card;
         width: 300px;
-        height: 300px;
-        padding: 15px;
-        top: 50%;
-        left: 50%;
-        transform: translateY(-50%) translateX(-50%);
-        background-color: #ffffff;
-        border-radius: 10px;
-        box-sizing: border-box;
-        // opacity: 1;
+        // height: 300px;
         
         .modal-contents {
             
             > p:first-of-type {
                 text-align: center;
-                color: red;
+                color: #5878cbdc;
             }
             
             textarea {
@@ -41,6 +44,44 @@
             margin-top: 10px;
         }   
     }
+
+    > .group-modal-card {
+        @extend .modal-card;
+        width: 400px;
+        // height: 100px;
+
+        .modal-title {
+            text-align: center;
+            color: #5878cbdc;
+            margin-bottom: 10px;
+        }
+        .modal-item {
+            display: flex;
+            
+            > p {
+                font-size: 14px;
+                width: 30%;
+            }
+            > input {
+                width: 70%;
+            }
+
+            .color {
+                width: 15%;
+            }
+        }
+
+        .modal-item:not(:first-of-type) {
+            margin-top: 10px;
+        }
+
+        .group-add-send {
+            display: block;
+            padding: 0 10px 0 10px;
+            margin: 20px auto 0px;
+        }
+    }
+    
     > .item-modal-card {
         z-index: 999;
         position: fixed;
@@ -58,7 +99,7 @@
             
             > p:first-of-type {
                 text-align: center;
-                color: red;
+                color: #5878cbdc;
             }
             
             textarea {
@@ -120,4 +161,5 @@
             }
         }
     }
+
 }

@@ -10,12 +10,20 @@ class Item extends Model
 {
     use HasFactory;
 
+    protected $table = 'item';
+
     // status別のアイテム取得
     public static function getItems($status)
     {
-        // $items = Item::select('item.id', 'item.userid', 'item.title', 'item.message', 'item.status', 'users.name')->leftJoin('users', 'item.userid', '=', 'users.id')->where('status', $status)->where('item.userid', session('userid'))->get();
-        $items = DB::table('item')->select('item.id', 'item.userid', 'item.title', 'item.message', 'item.status', 'users.name')->leftJoin('users', 'item.userid', '=', 'users.id')->where('status', $status)->where('item.userid', session('userid'))->get();
 
+        $items = Item::select('item.id', 'item.userid', 'item.title', 'item.message', 'item.status', 'users.name', 'items_in_group.group_id', 'users_in_group.color')
+            ->leftJoin('users', 'item.userid', '=', 'users.id')
+            ->leftJoin('items_in_group', 'item.id', '=', 'items_in_group.item_id')
+            ->leftJoin('users_in_group', 'items_in_group.group_id', '=', 'users_in_group.group_id')
+            ->where('item.status', $status)
+            ->where('item.userid', session('userid'))
+            ->where('users_in_group.visible', TRUE)
+            ->get();
         return $items;
     }
 
@@ -23,8 +31,14 @@ class Item extends Model
     public static function addItem($param)
     {
         // DB::insert('insert into item (userid, status, title, message) value (:userid, :status, :title, :message)', $param);
-        DB::table('item')->insert($param);
-        return true;
+        Item::insert($param);
+
+        return Item::where([
+            ['userid', '=', $param['userid']],
+            ['title', '=', $param['title']],
+            ['message', '=', $param['message']],
+            ['status', '=', $param['status']]
+        ])->first();;
     }
 
     // itemの更新
@@ -33,7 +47,7 @@ class Item extends Model
 
         $param2 = ['status' => $param['status'], 'title' => $param['title'], 'message' => $param['message']];
         // DB::update('update item set status=:status, title=:title, message=:message where id = :id', $param);
-        DB::table('item')->where('id', $param['id'])->update($param2);
+        Item::where('id', $param['id'])->update($param2);
         return true;
     }
 }

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('group_id'); //グループid
             $table->bigInteger('item_id'); //アイテムid
             $table->integer('status')->default(0); //ステータス 0:通常 9:論理削除
-            $table->timestamp('create_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('update_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 
             $table->primary(['group_id', 'item_id'])->unique();
         });
