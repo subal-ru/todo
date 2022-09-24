@@ -79,6 +79,14 @@
                                 </div>
                             </div>
                             <div><p>タイトル</p><div><input type="text" name="title" class="modal-title"></div></div>
+                            <div>
+                                <p>グループ</p>
+                                <select name="group" class="modal-group">
+                                    @foreach($groups as $group)
+                                        <option value="{{$group->group_id}}">{{$group->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div><p>内容</p><div><textarea rows="4" cols="35" name="message" class="modal-message"></textarea></div></div>
                             <input class="add-send-btn" type="submit" value="変更">
                         </div>

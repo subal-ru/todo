@@ -28,12 +28,20 @@ class UsersInGroup extends Model
         UsersInGroup::insert($param);
     }
 
-    // useridとgroupidからデータを一件入手
+    // useridとgroupidからグループを一件入手
     public static function getGroup($userid, $groupid)
     {
         return UsersInGroup::where('user_id', $userid)->where('group_id', $groupid)->first();
     }
 
+    // useidからグループを全権取得
+    public static function getGroups($userid)
+    {
+        return UsersInGroup::select('users_in_group.group_id', 'groups.name')
+            ->leftJoin('groups', 'users_in_group.group_id', '=', 'groups.id')
+            ->where('users_in_group.user_id', '=', session('userid'))
+            ->get();
+    }
 
     // visibleの変更
     public static function setVisibleData($userid, $groupid, $isVisible)

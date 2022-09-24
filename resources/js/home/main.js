@@ -8,7 +8,6 @@
         setAddGroupBottonEvent();
     }
 
-    // グローバル定数...?（あまり良くはないけど見た目をスッキリさせる為）
     const $doc = document;
 
     // addボタンにイベントを追加

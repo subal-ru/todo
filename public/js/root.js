@@ -52,6 +52,7 @@ function setStatusData($ele, $classNames) {
   $modal.getElementsByClassName('modal-title')[0].value = $title.innerHTML;
   $modal.getElementsByClassName('modal-message')[0].value = $message.innerHTML;
   $modal.getElementsByClassName('modal-status')[0].value = $itemElement.dataset.status;
+  $modal.getElementsByClassName('modal-group')[0].value = $itemElement.dataset.groupid;
   $modal.getElementsByTagName('input')['id'].value = $itemElement.dataset.id;
 } // エラーメッセージの表示
 

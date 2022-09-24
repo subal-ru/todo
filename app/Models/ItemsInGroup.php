@@ -26,4 +26,10 @@ class ItemsInGroup extends Model
     {
         return ItemsInGroup::where('item_id', '=', $itemid)->first()->group_id;
     }
+
+    // アイテムの所属グループを更新
+    public static function updataItemGroup($itemid, $newgroupid)
+    {
+        ItemsInGroup::where('item_id', '=', $itemid)->update(['group_id' => $newgroupid]);
+    }
 }

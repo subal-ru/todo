@@ -34,8 +34,8 @@ class todoController extends Controller
         $finishItems = Item::getItems(2);
 
         $groupList = [];
-        $groups = Group::getMyGroups();
-        foreach ($groups as $group) {
+        $groupids = Group::getMyGroups();
+        foreach ($groupids as $group) {
             $data = UsersInGroup::getGroup(session('userid'), $group->id);
             $groupList[] = [
                 'id'   => $group->id,
@@ -45,7 +45,9 @@ class todoController extends Controller
             ];
         }
 
-        return view('selection.home', compact(['yetItems', 'currentItems', 'finishItems', 'groupList']));
+        $groups = UsersInGroup::getGroups(session('userid'));
+
+        return view('selection.home', compact(['yetItems', 'currentItems', 'finishItems', 'groupList', 'groups']));
     }
 
     // アイテム追加
@@ -65,6 +67,10 @@ class todoController extends Controller
     {
         $param = $request->only(['status', 'title', 'message', 'id']);
         Item::changeItem($param);
+
+        // アイテムのグループIDを変更
+        $itemid = Item::getItemID(session('userid'), $request['title'], $request['message'], $request['status']);
+        ItemsInGroup::updataItemGroup($itemid, $request['group']);
 
         return redirect('/home');
     }
