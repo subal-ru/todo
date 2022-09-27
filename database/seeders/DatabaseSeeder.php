@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Group;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -20,5 +23,25 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        Model::unguard();
+
+        $this->call(GroupsTableSeeder::class);
+
+        Model::reguard();
+    }
+}
+
+class GroupsTableSeeder extends Seeder
+{
+    public function run()
+    {
+        Group::create(
+            [
+                'id' => 1, //念の為
+                'name' => 'グループなし',
+                'administrator_userid' => 0, //0は誰もいない
+            ]
+        );
     }
 }

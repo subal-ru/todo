@@ -29,7 +29,7 @@
                             <div><p>タイトル</p><div><input type="text" name="title"></div></div>
                             <div><p>グループ設定</p><div>
                                 <select name="groupid">
-                                    <option value="0">グループなし</option>
+                                    {{-- <option value="0">グループなし</option> --}}
                                     @foreach($groupList as $group)
                                         <option value="{{$group['id']}}">{{$group['name']}}</option>
                                     @endforeach

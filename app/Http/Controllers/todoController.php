@@ -34,15 +34,23 @@ class todoController extends Controller
         $finishItems = Item::getItems(2);
 
         $groupList = [];
-        $groupids = Group::getMyGroups();
+        $groupids = UsersInGroup::getGroups(session('userid'));
         foreach ($groupids as $group) {
-            $data = UsersInGroup::getGroup(session('userid'), $group->id);
-            $groupList[] = [
-                'id'   => $group->id,
-                'name' => $group->name,
-                'color' => $data->color,
-                'visible' => $data->visible,
-            ];
+            if ($group->id) {
+                $groupList[] = [
+                    'id'   => $group->id,
+                    'name' => $group->name,
+                    'color' => $group->color,
+                    'visible' => $group->visible,
+                ];
+            } else { //groupTableにデータがないものにはidとnameに指定の指定の値を入れる
+                $groupList[] = [
+                    'id'   => '0',
+                    'name' => 'グループなし',
+                    'color' => $group->color,
+                    'visible' => $group->visible,
+                ];
+            }
         }
 
         $groups = UsersInGroup::getGroups(session('userid'));
@@ -83,7 +91,7 @@ class todoController extends Controller
             $request->all(),
             [
                 'name'  => 'required|unique:users,name',
-                'email' => self::$EMAIL_RULE,
+                'email' => self::$EMAIL_RULE, //email uniqeの重複チェックをしていない
                 'password' => self::$PASSWORD_MAKE_RULE,
             ]
         );
@@ -100,7 +108,18 @@ class todoController extends Controller
     // 登録成功時処理
     public function registerSuccess(Request $request)
     {
+        // ユーザー登録
         User::setUsersData($request);
+
+        // グループユーザー登録（グループなし）
+        $param = [
+            'group_id' => 0,
+            'user_id' => session('userid'),
+            'authority' => FALSE,
+            'color' => '#acacac',
+        ];
+        UsersInGroup::setUser($param);
+
         return redirect('/home');
     }
 
@@ -209,7 +228,16 @@ class todoController extends Controller
     public function addGroupSuccess(Request $request)
     {
         Group::makeGroup($request); //グループの新規作成
-        UsersInGroup::setUser($request); //グループユーザーを紐付けるため専用のDBへ登録
+        $groupid = Group::getGroupID($request->name)->id;
+
+        $param = [
+            'group_id' => $groupid,
+            'user_id' => $request->userid,
+            'authority' => TRUE,
+            'color' => $request->color,
+        ];
+
+        UsersInGroup::setUser($param); //グループユーザーを紐付けるため専用のDBへ登録
 
         return redirect('/home');
     }

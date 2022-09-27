@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users_in_group', function (Blueprint $table) {
             //
-            $table->boolean('visible')->default(TRUE);
+            $table->boolean('visible')->default(TRUE)->after('color');
         });
     }
 

@@ -13,18 +13,8 @@ class UsersInGroup extends Model
     protected $table = 'users_in_group';
 
     // ユーザーとグループの紐付け
-    public static function setUser($request)
+    public static function setUser($param)
     {
-
-        $group_id = Group::getGroupID($request->name)->id;
-
-        $param = [
-            'group_id' => $group_id,
-            'user_id' => $request->userid,
-            'authority' => TRUE,
-            'color' => $request->color,
-        ];
-
         UsersInGroup::insert($param);
     }
 
@@ -37,7 +27,7 @@ class UsersInGroup extends Model
     // useidからグループを全権取得
     public static function getGroups($userid)
     {
-        return UsersInGroup::select('users_in_group.group_id', 'groups.name')
+        return UsersInGroup::select('groups.id', 'groups.name', 'users_in_group.color', 'users_in_group.visible')
             ->leftJoin('groups', 'users_in_group.group_id', '=', 'groups.id')
             ->where('users_in_group.user_id', '=', session('userid'))
             ->get();
