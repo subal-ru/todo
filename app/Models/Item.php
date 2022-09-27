@@ -23,6 +23,7 @@ class Item extends Model
             ->leftJoin('groups', 'items_in_group.group_id', '=', 'groups.id')
             ->where('item.status', $status)
             ->where('item.userid', session('userid'))
+            ->where('users_in_group.user_id', '=', session('userid'))
             ->where('users_in_group.visible', TRUE)
             ->get();
         return $items;
