@@ -10,8 +10,8 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setClickEvent_togglePassword": () => (/* binding */ setClickEvent_togglePassword),
 /* harmony export */   "setModalCloseEvent": () => (/* binding */ setModalCloseEvent),
-/* harmony export */   "setStatusData": () => (/* binding */ setStatusData),
 /* harmony export */   "showError": () => (/* binding */ showError),
 /* harmony export */   "showModal": () => (/* binding */ showModal)
 /* harmony export */ });
@@ -33,27 +33,11 @@ function setModalCloseEvent() {
       return closeModal($clickElement);
     });
   }
-}
-/*****************************************************************************************************
-*   関数
-*****************************************************************************************************/
-// モーダルの表示
+} // モーダルの表示
 
 function showModal($classNames) {
   var $modalElement = document.getElementsByClassName($classNames)[0];
   $modalElement.classList.add('display-block');
-} // クリックされたアイテムのデータをモーダルに設定
-
-function setStatusData($ele, $classNames) {
-  var $itemElement = $ele.target;
-  var $title = $itemElement.querySelector('[data-title]');
-  var $message = $itemElement.querySelector('[data-message]');
-  var $modal = $doc.getElementsByClassName($classNames)[0];
-  $modal.getElementsByClassName('modal-title')[0].value = $title.innerHTML;
-  $modal.getElementsByClassName('modal-message')[0].value = $message.innerHTML;
-  $modal.getElementsByClassName('modal-status')[0].value = $itemElement.dataset.status;
-  $modal.getElementsByClassName('modal-group')[0].value = $itemElement.dataset.groupid;
-  $modal.getElementsByTagName('input')['id'].value = $itemElement.dataset.id;
 } // エラーメッセージの表示
 
 function showError(error, $Mainpro, $name, $showType) {
@@ -64,12 +48,42 @@ function showError(error, $Mainpro, $name, $showType) {
     $("." + $Mainpro + " .error-message-" + $name)[0].innerHTML = '';
     $("." + $Mainpro + " .error-message-" + $name)[0].classList.remove('error-message-type' + $showType);
   }
-} // モーダルに自信を閉じるクリックイベントを追加
+} // モーダルに自身を閉じるクリックイベントを追加
 
 function closeModal($ele) {
   // 念の為モーダルクラスを調べる
   if ($ele.target.classList.contains('modal')) {
     $ele.target.classList.remove('display-block');
+  }
+} // パスワードの表示切り替え・アイコンも合わせて切り替え
+
+
+function setClickEvent_togglePassword() {
+  var $eye = $doc.getElementsByClassName('icon-eye');
+
+  for (var i = 0; i < $eye.length; i++) {
+    var $on = $eye[i].getElementsByClassName('on');
+    var $off = $eye[i].getElementsByClassName('off');
+    $on[0].addEventListener('click', function (ele) {
+      return togglePassword(ele);
+    });
+    $off[0].addEventListener('click', function (ele) {
+      return togglePassword(ele);
+    });
+  }
+} // setClickEvent_togglePasswordのメイン部分-アイコンの切り替えとパスワードの表示と黒丸切り替え
+
+function togglePassword(ele) {
+  // テキストを表示・非表示
+  if (ele.target.parentElement.previousElementSibling.getAttribute('type') == 'password') {
+    ele.target.parentElement.previousElementSibling.setAttribute('type', 'text');
+  } else {
+    ele.target.parentElement.previousElementSibling.setAttribute('type', 'password');
+  } // 目ん玉アイコンの切り替え
+
+
+  for (var i = 0; i < ele.target.parentElement.children.length; i++) {
+    ele.target.parentElement.children[i].classList.toggle('display-block');
   }
 }
 
@@ -142,13 +156,15 @@ function setLoginUserBottonEvent() {
 }
 
 function showLoginUserMenu(ele) {
-  var $menu = ele.target.children[0];
+  var $menu = ele.target.children[0]; // if($menu.style.display == 'none' || $menu.style.display == '') {
+  // $menu.classList.add('active');
+  // $menu.style.display = 'block';
+  // } else {
+  // $menu.classList.remove('active');
+  // $menu.style.display = 'none';
+  // }
 
-  if ($menu.style.display == 'none' || $menu.style.display == '') {
-    $menu.style.display = 'block';
-  } else {
-    $menu.style.display = 'none';
-  }
+  ele.target.children[0].classList.toggle('active');
 } // ログインボタン押下後の処理
 
 
@@ -17574,7 +17590,9 @@ __webpack_require__.r(__webpack_exports__);
 
 (0,_parts_header_js__WEBPACK_IMPORTED_MODULE_0__.headerSettingFunc)();
 
+
 (0,_parts_common_js__WEBPACK_IMPORTED_MODULE_1__.setModalCloseEvent)();
+(0,_parts_common_js__WEBPACK_IMPORTED_MODULE_1__.setClickEvent_togglePassword)();
 })();
 
 /******/ })()

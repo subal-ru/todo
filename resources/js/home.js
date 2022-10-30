@@ -1,3 +1,4 @@
+//common系は個別に読み込む
 import { setModalCloseEvent } from './parts/common.js';
 setModalCloseEvent();
 

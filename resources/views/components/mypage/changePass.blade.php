@@ -1,10 +1,10 @@
 {{-- mypage-changePassのhtml --}}
 
-<div class="changePass display-none">
+<div class="changePass @if($menu=='pass') display-block"@endif">
     <input type="hidden" name="userid" value="{{session('userid')}}" class="userid">
     <div class="changePass-item">
         <div class="changePass-item-left">現在のパスワード</div>
-        <div class="changePass-item-right"><input type="password" name="password" class="password"></div><div class="error-message-password"></div>
+        <div class="changePass-item-right"><input type="password" name="password" class="password" autocomplete="new-password"></div><div class="error-message-password"></div>
     </div>
     <div class="changePass-item">
         <div class="changePass-item-left">新しいパスワード</div>

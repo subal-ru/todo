@@ -22,8 +22,8 @@ class Item extends Model
             ->leftJoin('users_in_group', 'items_in_group.group_id', '=', 'users_in_group.group_id')
             ->leftJoin('groups', 'items_in_group.group_id', '=', 'groups.id')
             ->where('item.status', $status)
-            ->where('item.userid', session('userid'))
-            ->where('users_in_group.user_id', '=', session('userid'))
+            // ->where('item.userid', session('userid'))     　　　　　 //自分以外のアイテムを表示するため削除
+            ->where('users_in_group.user_id', '=', session('userid')) //所属しているグループ
             ->where('users_in_group.visible', TRUE)
             ->get();
         return $items;

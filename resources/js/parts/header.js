@@ -45,11 +45,14 @@ function setLoginUserBottonEvent() {
 
 function showLoginUserMenu(ele) {
     const $menu = ele.target.children[0];
-    if($menu.style.display == 'none' || $menu.style.display == '') {
-        $menu.style.display = 'block';
-    } else {
-        $menu.style.display = 'none';
-    }
+    // if($menu.style.display == 'none' || $menu.style.display == '') {
+        // $menu.classList.add('active');
+        // $menu.style.display = 'block';
+    // } else {
+        // $menu.classList.remove('active');
+        // $menu.style.display = 'none';
+    // }
+    ele.target.children[0].classList.toggle('active');
 }
 
 // ログインボタン押下後の処理

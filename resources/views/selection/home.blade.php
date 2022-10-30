@@ -29,7 +29,6 @@
                             <div><p>タイトル</p><div><input type="text" name="title"></div></div>
                             <div><p>グループ設定</p><div>
                                 <select name="groupid">
-                                    {{-- <option value="0">グループなし</option> --}}
                                     @foreach($groupList as $group)
                                         <option value="{{$group['id']}}">{{$group['name']}}</option>
                                     @endforeach
@@ -42,7 +41,7 @@
                     </form>
                 </div>
             </div>
-            <x-home.group class="group" :groupList="$groupList"></x-home.group>
+            <x-home.group :groupList="$groupList"></x-home.group>
             <div class="detail">
                 {{-- 7.0以前の記載では変数をコンポーネントに渡すのに、工夫が必要？ --}}
                 {{-- @component('components.statusList')
@@ -83,7 +82,7 @@
                                 <p>グループ</p>
                                 <select name="group" class="modal-group">
                                     @foreach($groups as $group)
-                                        <option value="{{$group->group_id}}">{{$group->name}}</option>
+                                        <option value="{{$group->id}}">{{$group->name}}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -1,0 +1,94 @@
+.mypage-main-right {
+
+    .group {
+
+        &-selector {
+            display: flex;
+            height: 10%;
+        }
+        
+        &-view {
+            width: 100%;
+            height: 90%;
+            
+            .member-wrapper {
+                float: left;
+                position: relative;
+                width: calc(50% - #{$mypage-main-right-padding});
+                height: 100%;
+                padding: 5px;
+                // border: 1px solid #ececec;
+                box-shadow: 1px 0 5px #cbcbcb;
+                border-radius: 10px;
+                box-sizing: border-box;
+                
+                .member {
+                    height: calc(100% - 10px );
+                    background-color: #fafafa;
+                    border-radius: 5px;
+                    padding: 5px;
+                }
+
+                .add {
+                    
+                    .botton {
+                        position: absolute;
+                        bottom: 0.5em;
+                        right: 1em;
+                        padding: 5px 10px 5px 10px;
+                        border-radius: 15px;
+                        background-color: #999999;
+                        color: #ececec;
+                        font-size: 12px;
+                        cursor: pointer;
+                    }
+                    .addForm {
+                        height: 0;
+                        opacity: 0;
+                        position: absolute;
+                        bottom: 2.5em;
+                        right: 1em;
+                        padding: 10px;
+                        border-radius: 10px;
+                        background-color: #dadada;
+                        pointer-events: none;
+                        
+                        > p {
+                            font-size: 12px;
+                        }
+                    }
+                    .addForm.active {
+                        transition: all 1s;
+                        height: auto;
+                        opacity: 1;
+                    }
+                
+                    .addForm::after {
+                        content: "";
+                        position: absolute;
+                        bottom: -8px;
+                        right: 2.3em;
+                        border-right: 8px solid transparent;
+                        border-top: 8px solid #dadada;
+                        border-left: 8px solid transparent; 
+                    }
+                }
+            }
+            .option-wrapper {
+                @extend .member-wrapper;
+                
+                .option {
+                    @extend .member;
+                }
+            }
+
+            .title {
+                position: absolute;
+                top: -0.75em;
+                width: 100%;
+                margin-left: -10px;
+                text-align: center;
+            }
+        }
+    }
+}

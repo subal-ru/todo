@@ -6,22 +6,21 @@
     <div class="mypage-main">
         <div class="mypage-main-left">
             <div class="mypage-menu">
-                <div class="isActive" data-menutag="information">登録情報</div>
-                <div data-menutag="changePass">パスワード変更</div>
-                <div data-menutag="group">グループ設定</div>
-                <div data-menutag="kari">仮</div>
+                <div @if($menu=='info') class="isActive"@endif data-menutag="information"><a href="{{route('mypage').'/info'}}">登録情報</a></div>
+                <div @if($menu=='pass') class="isActive"@endif data-menutag="changePass"><a href="{{route('mypage').'/pass'}}">パスワード変更</a></div>
+                <div @if($menu=='group') class="isActive"@endif data-menutag="group"><a href="{{route('mypage').'/group'}}">グループ設定</a></div>
             </div>
         </div>
         <div class="mypage-main-right">
 
             {{-- HTML:informationの呼出 --}}
-            <x-mypage.information></x-mypage.information>
+            <x-mypage.information :menu="$menu"></x-mypage.information>
 
             {{-- HTML:changePassの呼出 --}}
-            <x-mypage.changePass></x-mypage.changePass>
+            <x-mypage.changePass :menu="$menu"></x-mypage.changePass>
             
             {{-- HTML:groupの呼出 --}}
-            <x-mypage.group></x-mypage.group>
+            <x-mypage.group :groups="$groups" :menu="$menu" :select="$select" :groupMember="$groupMember"></x-mypage.group>
 
         </div>
     </div>

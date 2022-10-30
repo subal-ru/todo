@@ -139,14 +139,17 @@
                 // margin-bottom: 10px;
                 font-size: 20px;
             }
+
             input {
                 width: 100%;
             }
             > div {
-                input {
-                    margin-top: -10px;
-                }
 
+                margin-top: 1em;
+
+                    input {
+                        height: 1.5em;
+                    }
             }
         }
         
@@ -160,6 +163,7 @@
         @extend .modal-login-card;
         .contents {
             > div:nth-of-type(1) {
+
                 > input {
                     width: 35%;
                 }

@@ -12,22 +12,21 @@ body {
   display: block !important;
 }
 
-.error-message-type, .error-message-type2, .error-message-type1 {
+.error-message-type, .error-message-type3, .error-message-type2, .error-message-type1 {
   color: red;
   font-style: italic;
   font-size: 14px;
-}
-
-.error-message-type1 {
-  margin-top: -10px;
-  margin-bottom: -15px;
 }
 
 .error-message-type2 {
   margin-left: 1.5em;
 }
 
-.success-message-type, .success-message-type1 {
+.error-message-type3 {
+  font-size: 12px !important;
+}
+
+.success-message-type, .success-message-type2, .success-message-type1 {
   color: blue;
   font-style: italic;
   font-size: 15px;
@@ -37,8 +36,24 @@ body {
   margin-top: 1em;
 }
 
+.success-message-type2 {
+  font-size: 12px !important;
+}
+
 .toggle-off {
-  text-decoration: line-through;
+  -webkit-text-decoration: line-through 5px;
+          text-decoration: line-through 5px;
+}
+
+.common-form-password {
+  display: flex;
+  position: relative;
+}
+.common-form-password span {
+  display: none;
+  font-size: 1.5em;
+  position: absolute;
+  right: 0.3em;
 }
 
 .header {
@@ -47,20 +62,26 @@ body {
   background-color: #ffffff;
 }
 .header > .header-contents-wrapper {
-  z-index: 99;
   position: absolute;
-  top: 0;
-  right: 0;
+  z-index: 99;
+  top: 10px;
+  right: 1em;
 }
 .header > .header-contents-wrapper > .header-contents {
-  margin: 10px;
+  background-color: #e0e0e0;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 13px;
+  color: #666666;
+  border-radius: 20px;
+}
+.header > .header-contents-wrapper > .header-contents .header-option {
+  background-color: #e0e0e0;
   padding: 0 10px 0;
   line-height: calc(60px - calc(10px * 2));
   display: flex;
-  background-color: #e0e0e0;
   border-radius: 20px;
-  font-size: 13px;
-  color: #666666;
 }
 .header > .header-contents-wrapper > .header-contents .register, .header > .header-contents-wrapper > .header-contents .login {
   padding: 0 10px 0;
@@ -72,16 +93,28 @@ body {
   height: auto;
 }
 .header > .header-contents-wrapper > .header-contents > .header-loginUser > .header-loginUser-Menu {
-  display: none;
-  margin-top: -15px;
+  background-color: #e0e0e0;
+  margin-top: -1.7em;
+  width: 13em;
   padding: 10px;
   text-align: right;
+  border-radius: 0px 0px 20px 20px;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 .header > .header-contents-wrapper > .header-contents > .header-loginUser > .header-loginUser-Menu .header-Logout-botton, .header > .header-contents-wrapper > .header-contents > .header-loginUser > .header-loginUser-Menu .header-Mypage-botton, .header > .header-contents-wrapper > .header-contents > .header-loginUser > .header-loginUser-Menu .header-Home-botton {
   padding-top: 10px;
-  border: none;
-  background-color: #e0e0e0;
+  background-color: transparent;
+  border-radius: 10px;
   color: #666666;
+  border: none;
+  pointer-events: all;
+}
+.header > .header-contents-wrapper > .header-contents > .header-loginUser > .header-loginUser-Menu.active {
+  transition: all 1s;
+  height: auto;
+  opacity: 1;
 }
 
 .modal-card, .modal > .group-modal-card, .modal > .add-modal-card {
@@ -198,8 +231,11 @@ body {
 .modal > .modal-login-card .contents input, .modal > .modal-register-card .contents input {
   width: 100%;
 }
+.modal > .modal-login-card .contents > div, .modal > .modal-register-card .contents > div {
+  margin-top: 1em;
+}
 .modal > .modal-login-card .contents > div input, .modal > .modal-register-card .contents > div input {
-  margin-top: -10px;
+  height: 1.5em;
 }
 .modal > .modal-login-card .send-btn, .modal > .modal-register-card .send-btn {
   width: 100%;
@@ -225,6 +261,13 @@ body {
   padding: 10px 0 10px;
   color: #696969;
   box-sizing: border-box;
+}
+.mypage-main a {
+  text-decoration: none;
+  color: #696969;
+}
+.mypage-main a:active {
+  color: #696969;
 }
 .mypage-main > .mypage-main-left {
   width: 20%;
@@ -253,7 +296,7 @@ body {
   border-radius: 15px;
   box-sizing: border-box;
 }
-.mypage-main > .mypage-main-right > .display-none {
+.mypage-main > .mypage-main-right > div {
   display: none;
 }
 .mypage-main > .mypage-main-right > .information .information-item {
@@ -282,4 +325,75 @@ body {
   width: 100px;
   height: 30px;
   margin: 20px 0px 0 0px;
+}
+
+.mypage-main-right .group-selector {
+  display: flex;
+  height: 10%;
+}
+.mypage-main-right .group-view {
+  width: 100%;
+  height: 90%;
+}
+.mypage-main-right .group-view .member-wrapper, .mypage-main-right .group-view .option-wrapper {
+  float: left;
+  position: relative;
+  width: calc(50% - 20px);
+  height: 100%;
+  padding: 5px;
+  box-shadow: 1px 0 5px #cbcbcb;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.mypage-main-right .group-view .member-wrapper .member, .mypage-main-right .group-view .option-wrapper .member, .mypage-main-right .group-view .option-wrapper .option {
+  height: calc(100% - 10px);
+  background-color: #fafafa;
+  border-radius: 5px;
+  padding: 5px;
+}
+.mypage-main-right .group-view .member-wrapper .add .botton, .mypage-main-right .group-view .option-wrapper .add .botton {
+  position: absolute;
+  bottom: 0.5em;
+  right: 1em;
+  padding: 5px 10px 5px 10px;
+  border-radius: 15px;
+  background-color: #999999;
+  color: #ececec;
+  font-size: 12px;
+  cursor: pointer;
+}
+.mypage-main-right .group-view .member-wrapper .add .addForm, .mypage-main-right .group-view .option-wrapper .add .addForm {
+  height: 0;
+  opacity: 0;
+  position: absolute;
+  bottom: 2.5em;
+  right: 1em;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #dadada;
+  pointer-events: none;
+}
+.mypage-main-right .group-view .member-wrapper .add .addForm > p, .mypage-main-right .group-view .option-wrapper .add .addForm > p {
+  font-size: 12px;
+}
+.mypage-main-right .group-view .member-wrapper .add .addForm.active, .mypage-main-right .group-view .option-wrapper .add .addForm.active {
+  transition: all 1s;
+  height: auto;
+  opacity: 1;
+}
+.mypage-main-right .group-view .member-wrapper .add .addForm::after, .mypage-main-right .group-view .option-wrapper .add .addForm::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  right: 2.3em;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #dadada;
+  border-left: 8px solid transparent;
+}
+.mypage-main-right .group-view .title {
+  position: absolute;
+  top: -0.75em;
+  width: 100%;
+  margin-left: -10px;
+  text-align: center;
 }

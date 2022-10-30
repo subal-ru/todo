@@ -117,7 +117,7 @@ class User extends Authenticatable
         $param = $request->only(['userid', 'password', 'newpassword']);
 
         // 旧パスの一致確認
-        $myuser = User::where('users.id', $param['userid'])->first();
+        $myuser = User::where('id', $param['userid'])->first();
         if (!Hash::check($param['password'], $myuser->password)) {
             return 'error1';
         }
@@ -132,5 +132,11 @@ class User extends Authenticatable
         User::where('users.id', $param['userid'])->update(['password' => $hashPass]);
 
         return true;
+    }
+
+    // usernameからuseridを取得
+    public static function getUserid($name)
+    {
+        return User::where('name', '=', $name)->first()->id;
     }
 }

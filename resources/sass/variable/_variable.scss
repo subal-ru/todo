@@ -24,14 +24,18 @@ body {
 }
 .error-message-type1 {
     @extend .error-message-type;
-    margin-top: -10px;
-    margin-bottom: -15px;
+    // margin-top: -10px;
+    // margin-bottom: -15px;
 }
 .error-message-type2 {
     @extend .error-message-type;
     margin-left: 1.5em;
 }
 
+.error-message-type3 {
+    @extend .error-message-type;
+    font-size: 12px !important;    
+}
 .success-message-type {
     color: blue;
     font-style: italic;
@@ -43,6 +47,24 @@ body {
     margin-top: 1em;
 }
 
+.success-message-type2 {
+    @extend .success-message-type;
+    font-size: 12px !important;
+}
+
 .toggle-off {
-    text-decoration: line-through;
+    text-decoration: line-through 5px;
+}
+
+.common-form-password {
+
+    display: flex;
+    position: relative;
+
+     span {
+        display: none;
+        font-size: 1.5em;
+        position: absolute;
+        right: 0.3em;
+    }
 }

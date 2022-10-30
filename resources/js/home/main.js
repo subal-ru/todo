@@ -1,6 +1,5 @@
 // (()=>{
     import {showModal} from '../parts/common.js';
-    import {setStatusData} from '../parts/common.js';
 
     export function mainSettingFunc() {
         setAddBottonEvent();
@@ -29,5 +28,24 @@
         $('.add-group-btn').click(function() {
             showModal('modal group-add');
         })
+    }
+
+    // クリックされたアイテムのデータをモーダルに設定
+    function setStatusData($ele, $classNames) {
+        const $itemElement = $ele.target;
+        const $title = $itemElement.querySelector('[data-title]');
+        const $message = $itemElement.querySelector('[data-message]');
+        const $modal = $doc.getElementsByClassName($classNames)[0];
+        $modal.getElementsByClassName('modal-title')[0].value = $title.innerHTML;
+        $modal.getElementsByClassName('modal-message')[0].value = $message.innerHTML;
+        $modal.getElementsByClassName('modal-status')[0].value = $itemElement.dataset.status;
+        $modal.getElementsByClassName('modal-group')[0].value = $itemElement.dataset.groupid;
+        $modal.getElementsByTagName('input')['id'].value = $itemElement.dataset.id;
+        
+        // 自分以外のアイテムなら送信ボタンを非表示にする
+        $modal.getElementsByClassName('add-send-btn')[0].style.display = 'block';
+        if ($itemElement.dataset.userid !== $itemElement.dataset.myid) {
+            $modal.getElementsByClassName('add-send-btn')[0].style.display = 'none';
+        }
     }
 // })();

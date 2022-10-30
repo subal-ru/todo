@@ -5,21 +5,29 @@
     background-color: #ffffff;
 
     > #{$parent}-contents-wrapper {
-        z-index: 99; //子要素も全面に来るのでここで対応しておく
         position: absolute;
-        top: 0;
-        right: 0;
-
+        z-index: 99; //子要素も全面に来るのでここで対応しておく
+        top: calc(calc(calc($header-height - 20px) / 2) - 10px);
+        right: 1em;
+        
         > #{$parent}-contents {
-            $margin: 10px;
-            margin: #{$margin};
-            padding: 0 10px 0;
-            line-height: calc(#{$header-height} - calc(#{$margin} * 2));
-            display: flex;
             background-color: $bgc;
-            border-radius: 20px;
+            height: calc($header-height - 20px);
+            line-height: calc($header-height - 20px);
+            text-align: center;
             font-size: 13px;
             color: #666666;
+            border-radius: 20px;
+            
+            .header-option {
+                background-color: $bgc;
+                $margin: 10px;
+                // margin: #{$margin};
+                padding: 0 10px 0;
+                line-height: calc(#{$header-height} - calc(#{$margin} * 2));
+                display: flex;
+                border-radius: 20px;
+            }
 
             .register, .login {
                 padding: 0 10px 0;
@@ -32,18 +40,32 @@
                 height: auto;
                 
                 & > #{$parent}-loginUser-Menu {
-                    display: none;
-                    margin-top: -15px;
+                    background-color: $bgc;
+                    margin-top: -1.7em;
+                    width: 13em;
                     padding: 10px;
                     text-align: right;
-
+                    border-radius: 0px 0px 20px 20px;
+                    height: 0;
+                    opacity: 0;
+                    pointer-events: none;
+                    
                     .header-Logout-botton, .header-Mypage-botton, .header-Home-botton {
                         padding-top: 10px;
-                        border: none;
-                        background-color: $bgc;
+                        background-color: transparent;
+                        // width: 100px;
+                        border-radius: 10px;
                         color: #666666;
+                        border: none;
+                        pointer-events: all;
                     }
                 }
+                
+                & > #{$parent}-loginUser-Menu.active {
+                    transition: all 1s;
+                    height: auto;
+                    opacity: 1; 
+                } 
             }
         }
     }

@@ -15,28 +15,11 @@ export function setModalCloseEvent() {
     }
 }
 
-/*****************************************************************************************************
-*   関数
-*****************************************************************************************************/
 // モーダルの表示
 export function showModal($classNames) {
     const $modalElement = document.getElementsByClassName($classNames)[0];
     $modalElement.classList.add('display-block');
 }
-
-// クリックされたアイテムのデータをモーダルに設定
-export function setStatusData($ele, $classNames) {
-    const $itemElement = $ele.target;
-    const $title = $itemElement.querySelector('[data-title]');
-    const $message = $itemElement.querySelector('[data-message]');
-    const $modal = $doc.getElementsByClassName($classNames)[0];
-    $modal.getElementsByClassName('modal-title')[0].value = $title.innerHTML;
-    $modal.getElementsByClassName('modal-message')[0].value = $message.innerHTML;
-    $modal.getElementsByClassName('modal-status')[0].value = $itemElement.dataset.status;
-    $modal.getElementsByClassName('modal-group')[0].value = $itemElement.dataset.groupid;
-    $modal.getElementsByTagName('input')['id'].value = $itemElement.dataset.id;
-}
-
 
 // エラーメッセージの表示
 export function showError(error, $Mainpro, $name, $showType) {
@@ -51,10 +34,35 @@ export function showError(error, $Mainpro, $name, $showType) {
     }
 }
 
-// モーダルに自信を閉じるクリックイベントを追加
+// モーダルに自身を閉じるクリックイベントを追加
 function closeModal($ele) {
     // 念の為モーダルクラスを調べる
     if($ele.target.classList.contains('modal')) {
         $ele.target.classList.remove('display-block');
+    }
+}
+
+// パスワードの表示切り替え・アイコンも合わせて切り替え
+export function setClickEvent_togglePassword() {
+    const $eye = $doc.getElementsByClassName('icon-eye');
+    
+    for(let i=0; i < $eye.length; i++) {
+        const $on = $eye[i].getElementsByClassName('on');
+        const $off = $eye[i].getElementsByClassName('off');
+        $on[0].addEventListener('click', (ele) => togglePassword(ele));
+        $off[0].addEventListener('click', (ele) => togglePassword(ele));
+    }
+}
+// setClickEvent_togglePasswordのメイン部分-アイコンの切り替えとパスワードの表示と黒丸切り替え
+function togglePassword(ele) {
+    // テキストを表示・非表示
+    if (ele.target.parentElement.previousElementSibling.getAttribute('type') == 'password') {
+        ele.target.parentElement.previousElementSibling.setAttribute('type', 'text');
+    } else {
+        ele.target.parentElement.previousElementSibling.setAttribute('type', 'password');
+    }
+    // 目ん玉アイコンの切り替え
+    for(let i=0; i < ele.target.parentElement.children.length; i++) {
+        ele.target.parentElement.children[i].classList.toggle('display-block');
     }
 }

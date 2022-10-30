@@ -12,7 +12,7 @@
                     <input class="group-add-send" type="submit" value="グループを追加">
                 </div>
             </div>
-            <form action="home/addGroupSuccess" method="POST" style="display: hidden;" class="successForm">
+            <form action="home/addGroupSuccess" method="POST" style="display: none;" class="successForm">
                 @csrf
                 <input type="hidden" name="userid" class="userid">
                 <input type="hidden" name="name" class="name">

@@ -34,7 +34,9 @@ route::controller(todoController::class)->middleware('login')->group(
         route::post('home/addGroup', 'addGroup');
         route::post('home/addGroupSuccess', 'addGroupSuccess');
 
-        route::get('/mypage', 'mypage')->name('mypage');
-        route::post('/changePass', 'changePass');
+        route::get('mypage', 'mypage')->name('mypage');
+        route::get('mypage/{menu}', 'mypage');
+        route::post('mypage/changePass', 'changePass');
+        route::POST('mypage/group/addMemberCheck', 'addMemberCheck');
     }
 );

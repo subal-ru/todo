@@ -10,14 +10,15 @@ use App\Models\Group;
 use App\Models\UsersInGroup;
 use App\Models\ItemsInGroup;
 use Validator;
+use App\Rules\myname;
 
 class todoController extends Controller
 {
 
     // validate rule定義
     protected static $EMAIL_RULE = 'required|email';
-    protected static $PASSWORD_MAKE_RULE = 'required|min:8|max:16';
-    protected static $PASSWORD_CHECK_RULE = 'required|required_with:email';
+    protected static $PASSWORD_MAKE_RULE = 'bail|required|between:8,16';
+    protected static $PASSWORD_CHECK_RULE = 'bail|required|required_with:email';
 
     //ログイン前の画面
     public function root(Request $request)
@@ -46,14 +47,14 @@ class todoController extends Controller
             } else { //groupTableにデータがないものにはidとnameに指定の指定の値を入れる
                 $groupList[] = [
                     'id'   => '0',
-                    'name' => 'グループなし',
+                    'name' => '未設定',
                     'color' => $group->color,
                     'visible' => $group->visible,
                 ];
             }
         }
 
-        $groups = UsersInGroup::getGroups(session('userid'));
+        $groups = UsersInGroup::getGroups(session('userid'));  //groupidsの修正で同じことをしているので、後ほど修正する
 
         return view('selection.home', compact(['yetItems', 'currentItems', 'finishItems', 'groupList', 'groups']));
     }
@@ -170,18 +171,29 @@ class todoController extends Controller
     }
 
     // マイページ遷移時
-    public function mypage()
+    public function mypage(Request $request)
     {
-        return view('selection.mypage');
+        $groups = UsersInGroup::getGroups(session('users'));
+        $groupMember = UsersInGroup::getGroupMember($request->select);
+        $param = [
+            'groups' => $groups,
+            'menu' => $request->menu,
+            'select' => $request->select,
+            'groupMember' => $groupMember,
+        ];
+        // メンバーリストの取得
+
+        return view('selection.mypage')->with($param);
     }
 
     // チェンジパスボタン押下時のajaxのポスト受信
     public function changePass(Request $request)
     {
+        //Checkすつ順番を上から順番にするか まとめてチェックするか　独自のバリデートのルールを作った方が良い   
         $validate = Validator::make(
             $request->all(),
             [
-                'password'                => self::$PASSWORD_CHECK_RULE,
+                'password'                => 'required',
                 'newpassword'                 => self::$PASSWORD_MAKE_RULE . '|confirmed:newpassword',
                 'newpassword_confirmation'    => 'required_with:newpassword',
             ]
@@ -248,5 +260,33 @@ class todoController extends Controller
         UsersInGroup::setVisibleData(session('userid'), $request->groupid, $request->isVisible);
 
         return redirect('/home');
+    }
+
+    // グループにメンバー追加
+    public function addMemberCheck(Request $request)
+    {
+
+        // 入力チェックをする usersテーブルのnameカラムにあるかどうか
+        $validate = Validator::make($request->all(), [
+            'name' => ['bail', 'required', ' exists:users,name', new myname($request->input('name'))],
+        ]);
+
+        //validateエラ-
+        if ($validate->fails()) {
+            return $validate->messages();
+        }
+
+        //  エラーがなければ,招待+成功文を作成して送信する
+        //　とりあえずDBに追加する。追々、承認してから追加するように変更する
+        $param = [
+            'group_id' => $request->input('groupid'),
+            'user_id' => User::getUserid($request->input('name')),
+            'authority' => 0,
+            'color' => UsersInGroup::getMyGroupColor($request->input('groupid'), session('userid')),
+        ];
+        UsersInGroup::setUser($param);
+        return [
+            'success' => $request->input('name') . 'をグループに招待しました.',
+        ];
     }
 }

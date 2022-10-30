@@ -2,8 +2,10 @@
     <div class="header-contents-wrapper">
         <div class="header-contents">
             @if(!session('name'))
-                <div><a class="register">登録</a></div>
-                <div><a class="login">ログイン</a></div>
+                <div class="header-option">
+                    <div><a class="register">登録</a></div>
+                    <div><a class="login">ログイン</a></div>
+                </div>
             @else
                 <div class="header-loginUser">
                     {{-- {{ session('name') }} --}}
@@ -16,7 +18,7 @@
                             </form>
                         </div>
                         <div class="header-Mypage">
-                            <form action="{{ route('root') }}/mypage" method="GET">
+                            <form action="{{ route('mypage') }}/info" method="GET">
                                 @csrf
                                 <input type="submit" value="マイページ" class="header-Mypage-botton">
                             </form>
@@ -44,7 +46,13 @@
                             </div>
                             <div>
                                 <p>パスワード</p>
-                                <input type="password" name="password" class="password">
+                                <div class="common-form-password">
+                                    <input type="password" name="password" class="password">
+                                    <div class="icon-eye">
+                                        <span class="on material-symbols-outlined display-block">visibility</span>
+                                        <span class="off material-symbols-outlined">visibility_off</span>
+                                    </div>
+                                </div>
                                 <div class="error-message-password"></div>
                                 {{-- @error('password') <div class="contents-error">{{$message}}</div> @enderror --}}
                             </div>
@@ -54,7 +62,7 @@
                     {{-- </form> --}}
                 </div>
             </div>
-            <form action="loginSuccess" method="POST" style="display: hidden" id="form-loginSuccess">
+            <form action="loginSuccess" method="POST" style="display: none" id="form-loginSuccess">
                 @csrf
                 <input type="hidden" class="email" name="email">
                 <input type="hidden" class="password" name="password">
@@ -79,7 +87,13 @@
                             </div>
                             <div>
                                 <p>パスワード</p>
-                                <input type="password" name="password" class="password">
+                                <div class="common-form-password">
+                                    <input type="password" name="password" class="password">
+                                    <div class="icon-eye">
+                                        <span class="on material-symbols-outlined display-block">visibility</span>
+                                        <span class="off material-symbols-outlined">visibility_off</span>
+                                    </div>
+                                </div>
                                 <div class="error-message-password"></div>
                                 {{-- @error('password') <div class="contents-error">{{$message}}</div> @enderror --}}
                             </div>
@@ -88,7 +102,7 @@
                     {{-- </form> --}}
                 </div>
             </div>
-            <form action="registerSuccess" method="POST" style="display: hidden" id="form-registerSuccess"> {{-- 登録成功時用のフォーム --}}
+            <form action="registerSuccess" method="POST" style="display: none" id="form-registerSuccess"> {{-- 登録成功時用のフォーム --}}
                 @csrf
                 <input type="hidden" name="name" class="name">
                 <input type="hidden" name="email" class="email">
